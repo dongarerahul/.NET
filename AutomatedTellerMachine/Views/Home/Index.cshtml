@@ -2,6 +2,22 @@
     ViewBag.Title = "Home Page";
 }
 
+You are using @Request.Browser.Browser and that's ok ! Email is at support@mvcatm.com if you have problems or send us a tweet @@mvcatm
+
+@{ var amounts = new List<Decimal> { 100, 25.5m, -50, 288.9m };}
+<ul>
+    @: Formatted Amount: 
+    @foreach(decimal amount in amounts)
+    {
+        <li>@formatAmount(amount)</li>
+    }
+</ul>
+
+@helper formatAmount(decimal amount) { 
+    var color = amount >= 0 ? "green" : "red";
+    <span style="color:@color">@string.Format("{0:c}", amount)</span>
+}
+
 <div class="jumbotron">
     <h1>ASP.NET</h1>
     <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>

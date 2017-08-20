@@ -8,9 +8,25 @@ namespace AutomatedTellerMachine.Controllers
 {
     public class HomeController : Controller
     {
+        private object db;
+
+        [MyLoggingFilter]
+        [OutputCache(Duration = 1800)]
         public ActionResult Index()
         {
             return View();
+        }
+
+        public ActionResult Details(int id)
+        {
+            Product p = null;// = db.Products.find(id);
+            return View(p);
+        }
+
+        [HandleError(View="MyError", ExceptionType = typeof(StackOverflowException))]
+        public ActionResult ErrorMethod()
+        {
+            throw new StackOverflowException("My Error");
         }
 
         public ActionResult About()
@@ -27,8 +43,6 @@ namespace AutomatedTellerMachine.Controllers
             return View();
         }
 
-        [Authorize(Roles ="administrator", Users="jsmith")] // all admin & jsmith user
-        [Authorize] // all loggedin users
         [HttpPost]
         public ActionResult Contact(string message)
         {
@@ -43,6 +57,8 @@ namespace AutomatedTellerMachine.Controllers
             return View("About");
         }
 
+        [Authorize(Roles = "administrator", Users = "jsmith")] // all admin & jsmith user
+        [Authorize] // authorize all loggedin users
         [Route("home/MySerial")]
         public ActionResult MyMethod()
         {
